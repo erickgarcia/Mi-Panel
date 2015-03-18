@@ -154,6 +154,15 @@ Route::filter('permissions_destroy', function()
     }
 });
 
+Route::filter('update_profile', function()
+{
+    if (! Entrust::can('users:changeownprofile') ) // Checks the current user
+    {
+        return Redirect::route('home')
+            ->with('global', 'No autorizado.');
+    }
+});
+
 Route::filter('auth.basic', function()
 {
 	return Auth::basic();

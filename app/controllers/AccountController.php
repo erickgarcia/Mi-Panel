@@ -2,6 +2,11 @@
 
 class AccountController extends BaseController {
 
+    public function __construct()
+    {
+        $this->beforeFilter('update_profile', ['only' => ['updateProfile', 'updateProfileProcess']]);
+    }
+
     public function showRegister()
     {
         return View::make('account.register');
@@ -113,6 +118,12 @@ class AccountController extends BaseController {
         return Redirect::route('home');
     }
 
+    public function updateProfile()
+    {
+        return View::make('account.update')
+            ->with('user', Auth::user());
+    }
+
     public function changePassword()
     {
         return View::make('account.password');
@@ -151,6 +162,39 @@ class AccountController extends BaseController {
 
         return Redirect::route('account.change.password')
             ->with('global', 'Tu contraseña no ha podido ser actualizada.');
+    }
+
+    public function updateProfileProcess()
+    {
+        $user = Auth::user();
+
+        $validator = Validator::make(Input::all(),
+            array(
+                'username' => 'required|max:100|min:4|unique:users,username,'.$user->id,
+                'email' => 'required|max:50|email|unique:users,email,'.$user->id
+            )
+        );
+
+        if($validator->fails()) {
+            return Redirect::route('account.update')
+                ->withErrors($validator)
+                ->withInput();
+        } else {
+            $username = Input::get('username');
+            $email = Input::get('email');
+
+            $user->username = $username;
+            $user->email = $email;
+
+            if($user->update([])) {
+                return Redirect::to('/user/'.$user->username)
+                    ->with('global', '¡Cuenta Actualizada!.');
+            }
+        }
+
+        return Redirect::route('users.index')
+            ->with('global', 'Error al actualizar cuenta.');
+
     }
 
     public function forgotPassword() {

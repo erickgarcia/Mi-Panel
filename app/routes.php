@@ -34,6 +34,14 @@ Route::group(array('before'=>'auth'), function() {
               'uses' => 'AccountController@changePasswordProcess'
             ]
         );
+        /*
+         * Update profile (POST)
+         */
+        Route::put('/account/update',
+            [ 'as' => 'account.update.process',
+              'uses' => 'AccountController@updateProfileProcess'
+            ]
+        );
     });
     /*
      * Route for home
@@ -42,6 +50,14 @@ Route::group(array('before'=>'auth'), function() {
         [
             'as' => 'home',
             'uses' => 'HomeController@showWelcome'
+        ]
+    );
+    /*
+     * Update profile (GET)
+     */
+    Route::get('/account/update',
+        [ 'as' => 'account.update',
+          'uses' => 'AccountController@updateProfile'
         ]
     );
     /*
