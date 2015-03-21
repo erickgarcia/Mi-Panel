@@ -3,5 +3,7 @@
     {{ trans('main.home') }}
 @stop
 @section('body')
-<h1>{{ trans('main.home') }}</h1>
+    <div class="col-xs-12">
+        <h1>{{ trans('main.home') }}</h1>
+    </div>
 @stop

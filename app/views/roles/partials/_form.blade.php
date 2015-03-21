@@ -2,7 +2,7 @@
 @if($errors->has('name'))
     <span class="text-danger">{{ $errors->first('name') }}</span>
 @endif
-{{ Form::text('name', null, ['placeholder' => 'Rol', 'required'=>'']) }}
+{{ Form::text('name', null, ['class'=>'form-control', 'placeholder' => 'rol', 'required'=>'', 'autofocus'=>'']) }}
 <ul class="list-unstyled">
 @foreach($role->permissions as $permission)
     <li>

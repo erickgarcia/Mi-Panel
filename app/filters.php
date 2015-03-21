@@ -57,6 +57,7 @@ Route::filter('users_view', function()
             ->with('global', 'No autorizado.');
     }
 });
+
 Route::filter('users_create', function()
 {
     if(! Entrust::can('users:create'))
@@ -65,6 +66,7 @@ Route::filter('users_create', function()
             ->with('global', 'No autorizado.');
     }
 });
+
 Route::filter('users_edit', function()
 {
     if(! Entrust::can('users:edit'))
@@ -73,6 +75,7 @@ Route::filter('users_edit', function()
             ->with('global', 'No autorizado.');
     }
 });
+
 Route::filter('users_destroy', function()
 {
     if(! Entrust::can('users:destroy'))

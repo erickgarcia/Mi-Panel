@@ -21,6 +21,7 @@
     <span class="small text-danger">{{ $errors->first('password_again') }}</span>
 @endif
 {{ Form::password('password_again', ['class' => 'form-control', 'placeholder' => 'contraseña']) }}
+@if(Auth::user()->can('roles:view'))
 <ul class="list-unstyled">
     @foreach($user->roles as $role)
         <li>
@@ -29,3 +30,4 @@
         </li>
     @endforeach
 </ul>
+@endif

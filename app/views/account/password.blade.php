@@ -3,7 +3,7 @@
     Actualizar contraseña
 @stop
 @section('body')
-<div class="container">
+<div class="col-xs-12">
     <div class="center-block" style="width: 35%">
         {{ Form::open(array('route'=>'account.change.password.process', 'class'=> 'form-signin')) }}
         <h2 class="form-signin-heading">Actualizar contraseña</h2>

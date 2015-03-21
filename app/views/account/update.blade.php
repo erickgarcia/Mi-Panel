@@ -3,7 +3,7 @@
     Actualizar perfil
 @stop
 @section('body')
-    <div class="container">
+<div class="col-xs-12">
         <div class="center-block" style="width: 35%">
             {{ Form::model($user, ['route' => ['account.update.process', $user->id], 'method' => 'PUT', 'class'=> 'form-signin']) }}
             <h2 class="form-signin-heading">Actualizar Perfil</h2>

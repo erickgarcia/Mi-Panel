@@ -3,6 +3,7 @@
     Usuarios
 @stop
 @section('body')
+<div class="col-xs-12">
     <h1>Usuarios</h1>
     <ul class="list-unstyled">
         @foreach($users as $user)
@@ -24,4 +25,5 @@
         @endforeach
     </ul>
     {{ $users->links() }}
+</div>
 @stop

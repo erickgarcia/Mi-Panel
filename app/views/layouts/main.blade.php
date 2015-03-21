@@ -22,7 +22,11 @@
     <p>{{ Session::get('global') }}</p>
 @endif
 @include('layouts.partials._navigation')
-@yield('body')
+<div class="container-fluid">
+    <div class="row">
+        @yield('body')
+    </div>
+</div>
 @section('script')
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     {{ HTML::script('js/jquery.min.js') }}
