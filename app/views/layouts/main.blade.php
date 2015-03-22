@@ -18,12 +18,17 @@
     @show
 </head>
 <body>
-@if(Session::has('global'))
-    <p>{{ Session::get('global') }}</p>
-@endif
 @include('layouts.partials._navigation')
 <div class="container-fluid">
     <div class="row">
+        @if(Session::has('global'))
+            <div class="container">
+                <div class="alert alert-warning alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <p>{{ Session::get('global') }}</p>
+                </div>
+            </div>
+        @endif
         @yield('body')
     </div>
 </div>
