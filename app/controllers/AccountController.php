@@ -44,6 +44,7 @@ class AccountController extends BaseController {
             ));
 
             if($user) {
+                Log::info('new registered user.', array('user' =>$user->username, 'time' => time(), 'ip' =>  Request::getClientIp()));
                 Mail::send('emails.auth.activate', ['link' => URL::route('account.activate', $code), 'username' => $username], function($message) use ($user) {
                     $message->to($user->email, $user->username)->subject('Activa tu cuenta');
                 });
@@ -65,6 +66,7 @@ class AccountController extends BaseController {
             $user->code = '';
 
             if($user->save()) {
+                Log::info('Account activated.', array('user' =>$user->username, 'time' => time(), 'ip' =>  Request::getClientIp()));
                 return Redirect::route('home')
                     ->with('global', 'Cuenta activada.');
             }
@@ -88,6 +90,8 @@ class AccountController extends BaseController {
         );
 
         if($validator->fails()) {
+            Log::info('Authentication attempt.', array('user' =>'unauthenticated', 'time' => time(), 'ip' =>  Request::getClientIp()));
+
             return Redirect::route('account.sign-in')
                 ->withErrors($validator)
                 ->withInput();
@@ -100,20 +104,23 @@ class AccountController extends BaseController {
             ), $remember);
 
             if($auth) {
+                Log::info('Login user.', array('user' => Auth::user()->username, 'time' => time(), 'ip' =>  Request::getClientIp()));
                 //Redirect to intented page
                 return Redirect::intended('/');
             } else {
+                Log::info('Authentication fails.', array('user' =>'unauthenticated', 'time' => time(), 'ip' =>  Request::getClientIp()));
                 return Redirect::route('account.sign-in')
                     ->with('global', 'Email/Contraseña equivocada, o la cuenta no ha sido activada.');
             }
         }
-
+        Log::error('Authentication error.', array('time' => time(), 'ip' =>  Request::getClientIp()));
         return Redirect::route('account.sign-in')
             ->with('global', 'Error al iniciar sesión.');
     }
 
     public function signOut()
     {
+        Log::info('User logout.', array('user' => Auth::user()->username, 'time' => time(), 'ip' =>  Request::getClientIp()));
         Auth::logout();
         return Redirect::route('home');
     }
@@ -151,6 +158,7 @@ class AccountController extends BaseController {
                 $user->password = Hash::make($password);
 
                 if($user->save()) {
+                    Log::info('User update password.', array('user' => Auth::user()->username, 'time' => time(), 'ip' =>  Request::getClientIp()));
                     return Redirect::route('home')
                         ->with('global', 'Contraseña actualizada.');
                 }
@@ -187,11 +195,13 @@ class AccountController extends BaseController {
             $user->email = $email;
 
             if($user->update([])) {
+                Log::info('User update profile.', array('user' => $user->username, 'time' => time(), 'ip' =>  Request::getClientIp()));
                 return Redirect::to('/user/'.$user->username)
                     ->with('global', '¡Cuenta Actualizada!.');
             }
         }
 
+        Log::error('User update profile error.', array('user' => $user->username, 'time' => time(), 'ip' =>  Request::getClientIp()));
         return Redirect::route('users.index')
             ->with('global', 'Error al actualizar cuenta.');
 
@@ -225,6 +235,7 @@ class AccountController extends BaseController {
                 $user->password_temp = Hash::make($password);
 
                 if($user->save()) {
+                    Log::info('Send new password.', array('user' => $user->username, 'time' => time(), 'ip' =>  Request::getClientIp()));
                     Mail::send('emails.auth.forgot', ['link' => URL::route('account.recover', $code), 'username' => $user->username, 'password' => $password], function($message) use ($user) {
                         $message->to($user->email, $user->username)->subject('Nueva contraseña');
                     });
@@ -249,6 +260,7 @@ class AccountController extends BaseController {
             $user->code             = '';
 
             if($user->save()) {
+                Log::info('Account recover.', array('user' => $user->username, 'time' => time(), 'ip' =>  Request::getClientIp()));
                 return Redirect::route('home')
                     ->with('global', 'Cuenta activada. Puede usar su nueva contraseña.');
             }
