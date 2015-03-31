@@ -13,4 +13,9 @@ class HomeController extends BaseController {
         return View::make('home');
 	}
 
+    public function showCatalogs()
+    {
+        return View::make('catalogs.index');
+    }
+
 }

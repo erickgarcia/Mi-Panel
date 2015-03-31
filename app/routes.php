@@ -82,6 +82,19 @@ Route::group(array('before'=>'auth'), function() {
     Route::resource('roles', 'RoleController');
     /*Resource for permissions*/
     Route::resource('permissions', 'PermissionController');
+
+    /*
+    * Catalogs
+    */
+    Route::group(array('prefix' => 'catalogs'), function() {
+        Route::get('/',
+            ['as' => 'catalogs.index',
+              'uses' => 'HomeController@showCatalogs']
+        );
+        /*Resource for Sectors*/
+        Route::resource('sectors', 'SectorController');
+    });
+
 });
 
 /*

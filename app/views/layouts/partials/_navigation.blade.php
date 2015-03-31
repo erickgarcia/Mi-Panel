@@ -65,6 +65,14 @@
                             </ul>
                         </li>
                     @endif
+                        <li class="dropdown {{ Request::is('catalogs*')? 'active':'' }}">
+                            {{ HTML::link(URL::route('catalogs.sectors.index'), 'Catálogos', ['class'=>'dropdown-toggle', 'data-toggle'=>'dropdown', 'role'=>'button', 'aria-expanded'=>'false']) }}
+                            <ul class="dropdown-menu" role="menu">
+                                <li class="{{ Request::is('catalogs/sectors')? 'active':'' }}">
+                                    {{ HTML::link(URL::route('catalogs.sectors.index'), 'Sectores') }}
+                                </li>
+                            </ul>
+                        </li>
                 @endif
             </ul>
             <ul class="nav navbar-nav navbar-right">
